@@ -1,2 +1,2 @@
 # movies-app
-Test task for WebyLab
+Test task for WebbyLab
