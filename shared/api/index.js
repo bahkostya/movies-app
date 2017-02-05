@@ -1,12 +1,32 @@
 const API_PREFIX = 'http://localhost:3000';
 
-function getMovies() {
+function getAllMovies() {
     const fetchOptions = {
         method: 'GET',
         mode: 'cors',
     };
 
     return fetch(`${API_PREFIX}/movies`, fetchOptions)
+        .then(response => response.json());
+}
+
+function searchMoviesByTitle(title) {
+    const fetchOptions = {
+        method: 'GET',
+        mode: 'cors',
+    };
+
+    return fetch(`${API_PREFIX}/movies?title=${title}`, fetchOptions)
+        .then(response => response.json());
+}
+
+function searchMoviesByStar(stars) {
+    const fetchOptions = {
+        method: 'GET',
+        mode: 'cors',
+    };
+
+    return fetch(`${API_PREFIX}/movies?stars=${stars}`, fetchOptions)
         .then(response => response.json());
 }
 
@@ -36,7 +56,9 @@ function deleteMovie(id) {
 }
 
 export default {
-    getMovies,
+    getAllMovies,
+    searchMoviesByTitle,
+    searchMoviesByStar,
     addMovies,
     deleteMovie,
 };

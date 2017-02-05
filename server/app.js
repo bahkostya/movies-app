@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(cors({ origin: '*' }));
 
 app.get('/movies', (req, res) => {
-    db.listMovies().then(data => res.send(data));
+    db.searchMovies(req.query).then(data => res.send(data));
 });
 
 app.post('/movies', (req, res) => {

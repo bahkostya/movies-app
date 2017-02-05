@@ -8,8 +8,18 @@ function setUpConnection({ host, port, dbName }) {
     mongoose.connect(`mongodb://${host}:${port}/${dbName}`);
 }
 
-function listMovies() {
-    return Movie.find().sort({ title: 1 });
+function searchMovies(options) {
+    const query = {};
+
+    if ('title' in options) {
+        query.title = { $regex: options.title, $options: 'i' };
+    }
+
+    if ('stars' in options) {
+        query.stars = { $elemMatch: { $regex: options.stars, $options: 'i' } };
+    }
+
+    return Movie.find(query).sort({ title: 1 });
 }
 
 function createMovies(data) {
@@ -35,7 +45,7 @@ function deleteMovie(id) {
 
 module.exports = {
     setUpConnection,
-    listMovies,
     deleteMovie,
     createMovies,
+    searchMovies,
 };
