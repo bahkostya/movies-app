@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { importMovies, fetchAllMovies } from '../actions';
+import { importMovies, fetchAllMovies, fetchSearchMovies } from '../actions';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
@@ -10,32 +10,53 @@ import Import from '../components/Import.jsx';
 
 import parseFile from '../utils/UploadFile';
 
-@connect(null, { importMovies, fetchAllMovies })
+@connect(null, { importMovies, fetchAllMovies, fetchSearchMovies })
 export default class Header extends Component {
-    render() {
-        const { importMovies, fetchAllMovies } = this.props;
+    state = {
+        queryValue: '',
+    }
 
+    handleTouchTap = () => {
+        this.props.fetchAllMovies();
+        this.setState({
+            queryValue: '',
+        });
+    }
+
+    render() {
         return (
-            <Toolbar>
-                <ToolbarGroup firstChild>
+            <div
+                style={{
+                    backgroundColor: '#81D4FA',
+                }}
+            >
+                <Toolbar
+                    style={{
+                        backgroundColor: '#81D4FA',
+                        maxWidth: '800px',
+                        width: '100%',
+                        margin: '0 auto',
+                        color: '#ffffff',
+                    }}
+                >
                     <SearchBox
-                        onSearch={search => console.log(search)}
+                        queryValue={this.state.queryValue}
+                        onSearch={query => this.props.fetchSearchMovies(query)}
                     />
-                </ToolbarGroup>
-                <ToolbarGroup>
-                    <ToolbarSeparator />
-                    <RaisedButton
-                        label="Show all"
-                        primary
-                        onTouchTap={() => fetchAllMovies()}
-                    />
-                    <Import
-                        onImport={file => {
-                            parseFile(file).then(movies => importMovies(movies));
-                        }}
-                    />
-                </ToolbarGroup>
-            </Toolbar>
+                    <ToolbarGroup>
+                        <ToolbarSeparator />
+                        <RaisedButton
+                            label="Show all"
+                            onTouchTap={this.handleTouchTap}
+                        />
+                        <Import
+                            onImport={file => {
+                                parseFile(file).then(movies => this.props.importMovies(movies));
+                            }}
+                        />
+                    </ToolbarGroup>
+                </Toolbar>
+            </div>
         );
     }
 }

@@ -5,8 +5,8 @@ import api from '../api';
 export const IMPORT_MOVIES_REQUEST = 'IMPORT_MOVIES_REQUEST';
 export const IMPORT_MOVIES_SUCCESS = 'IMPORT_MOVIES_SUCCESS';
 
-export const FETCH_ALL_MOVIES_REQUEST = 'FETCH_ALL_MOVIES_REQUEST';
-export const FETCH_ALL_MOVIES_SUCCESS = 'FETCH_ALL_MOVIES_SUCCESS';
+export const FETCH_MOVIES_REQUEST = 'FETCH_ALL_MOVIES_REQUEST';
+export const FETCH_MOVIES_SUCCESS = 'FETCH_ALL_MOVIES_SUCCESS';
 
 export const importMoviesRequest = () => ({
     type: IMPORT_MOVIES_REQUEST,
@@ -24,18 +24,26 @@ export const importMovies = movies => dispatch => {
         .then(data => dispatch(importMoviesSuccess(data.length)));
 };
 
-export const fetchAllMoviesRequest = () => ({
-    type: FETCH_ALL_MOVIES_REQUEST,
+export const fetchMoviesRequest = () => ({
+    type: FETCH_MOVIES_REQUEST,
 });
 
-export const fetchAllMoviesSuccess = movies => ({
-    type: FETCH_ALL_MOVIES_SUCCESS,
+export const fetchMoviesSuccess = movies => ({
+    type: FETCH_MOVIES_SUCCESS,
     movies,
 });
 
 export const fetchAllMovies = () => dispatch => {
-    dispatch(fetchAllMoviesRequest());
+    dispatch(fetchMoviesRequest());
 
     return api.getAllMovies()
-        .then(data => dispatch(fetchAllMoviesSuccess(fromJS(data))));
+        .then(data => dispatch(fetchMoviesSuccess(fromJS(data))));
+};
+
+
+export const fetchSearchMovies = ({ queryKey, queryValue }) => dispatch => {
+    dispatch(fetchMoviesRequest());
+
+    return api.searchMovies(queryKey, queryValue)
+        .then(data => dispatch(fetchMoviesSuccess(fromJS(data))));
 };

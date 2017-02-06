@@ -10,23 +10,13 @@ function getAllMovies() {
         .then(response => response.json());
 }
 
-function searchMoviesByTitle(title) {
+function searchMovies(parameter, query) {
     const fetchOptions = {
         method: 'GET',
         mode: 'cors',
     };
 
-    return fetch(`${API_PREFIX}/movies?title=${title}`, fetchOptions)
-        .then(response => response.json());
-}
-
-function searchMoviesByStar(stars) {
-    const fetchOptions = {
-        method: 'GET',
-        mode: 'cors',
-    };
-
-    return fetch(`${API_PREFIX}/movies?stars=${stars}`, fetchOptions)
+    return fetch(`${API_PREFIX}/movies?${parameter}=${query}`, fetchOptions)
         .then(response => response.json());
 }
 
@@ -57,8 +47,7 @@ function deleteMovie(id) {
 
 export default {
     getAllMovies,
-    searchMoviesByTitle,
-    searchMoviesByStar,
+    searchMovies,
     addMovies,
     deleteMovie,
 };

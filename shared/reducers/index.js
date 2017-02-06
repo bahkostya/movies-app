@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import { fromJS } from 'immutable';
 
 import {
     IMPORT_MOVIES_REQUEST,
     IMPORT_MOVIES_SUCCESS,
-    FETCH_ALL_MOVIES_REQUEST,
-    FETCH_ALL_MOVIES_SUCCESS,
+    FETCH_MOVIES_REQUEST,
+    FETCH_MOVIES_SUCCESS,
 } from '../actions';
 
 const defaultState = fromJS({
@@ -20,7 +20,7 @@ const movies = (state = defaultState, action) => {
             return state
                 .set('isImporting', true);
 
-        case FETCH_ALL_MOVIES_REQUEST:
+        case FETCH_MOVIES_REQUEST:
             return state
                 .set('ifFetching', true);
 
@@ -31,7 +31,7 @@ const movies = (state = defaultState, action) => {
                 .set('isImporting', false);
         }
 // .update('items', items => items.concat(action.movies));
-        case FETCH_ALL_MOVIES_SUCCESS:
+        case FETCH_MOVIES_SUCCESS:
             return state
                 .set('ifFetching', false)
                 .set('items', action.movies);

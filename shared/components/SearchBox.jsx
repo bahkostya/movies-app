@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import ActionSearch from 'material-ui/svg-icons/action/search';
+import { ToolbarGroup } from 'material-ui/Toolbar';
 
 import styles from './SearchBox.scss';
 
@@ -15,25 +18,33 @@ const DropDownMenuStyles = {
     iconStyle: {
         fill: '#000000',
         top: 0,
+        right: '8px',
+    },
+    labelStyle: {
+        lineHeight: '48px',
+        paddingRight: '48px',
+        paddingLeft: '16px',
     },
     style: {
-        lineHeight: '48px',
+        marginRight: 0,
     },
 };
 
 export default class SearchBox extends Component {
-    constructor(props) {
-        super(props);
+    state = {
+        queryKey: 'title',
+        queryValue: this.props.queryValue,
+    }
 
-        this.state = {
-            query: '',
-            searchType: 'title',
-        };
+    componentWillReceiveProps() {
+        this.setState({
+            queryValue: '',
+        });
     }
 
     handleTextChange = e => {
         this.setState({
-            query: e.target.value,
+            queryValue: e.target.value,
         });
     }
 
@@ -43,46 +54,57 @@ export default class SearchBox extends Component {
         }
     }
 
+    handleTouchTap = () => {
+        this.props.onSearch(this.state);
+    }
+
     handleChange = (event, index, value) => {
         this.setState({
-            searchType: value,
+            queryKey: value,
         });
     }
 
     render() {
-        const { query } = this.state;
+        const { queryKey, queryValue } = this.state;
 
         return (
-            <div
+            <ToolbarGroup
                 className={styles.root}
+                firstChild
             >
-                <DropDownMenu
-                    className={styles.dropDown}
-                    iconStyle={DropDownMenuStyles.iconStyle}
-                    labelStyle={DropDownMenuStyles.style}
-                    underlineStyle={DropDownMenuStyles.underlineStyle}
-                    value={this.state.searchType}
-                    onChange={this.handleChange}
-                >
-                    <MenuItem
-                        primaryText="Search by title"
-                        value={'title'}
-                    />
-                    <MenuItem
-                        primaryText="Search by actor's name"
-                        value={'stars'}
-                    />
-                </DropDownMenu>
                 <TextField
                     className={styles.textField}
                     fullWidth
-                    hintText="Search"
+                    hintText="Search movie"
                     underlineShow
-                    value={query}
+                    value={queryValue}
                     onChange={this.handleTextChange}
                     onKeyDown={this.handleKeyDown}
                 />
-            </div>
+                <IconButton>
+                    <ActionSearch
+                        onTouchTap={this.handleTouchTap}
+                    />
+                </IconButton>
+                <DropDownMenu
+                    className={styles.dropDown}
+                    iconStyle={DropDownMenuStyles.iconStyle}
+                    labelStyle={DropDownMenuStyles.labelStyle}
+                    style={DropDownMenuStyles.style}
+                    underlineStyle={DropDownMenuStyles.underlineStyle}
+                    value={queryKey}
+                    onChange={this.handleChange}
+                >
+                    <MenuItem
+                        primaryText="Titles"
+                        value={'title'}
+                    />
+                    <MenuItem
+                        primaryText="Actors"
+                        value={'stars'}
+                    />
+                </DropDownMenu>
+            </ToolbarGroup>
         );
     }
 }
