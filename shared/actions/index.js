@@ -9,16 +9,16 @@ export const addMoviesRequest = () => ({
     type: ADD_MOVIES_REQUEST,
 });
 
-export const addMoviesSuccess = moviesCount => ({
+export const addMoviesSuccess = newMovies => ({
     type: ADD_MOVIES_SUCCESS,
-    moviesCount,
+    newMovies,
 });
 
 export const addMovies = movies => dispatch => {
     dispatch(addMoviesRequest());
 
     return api.addMovies(movies)
-        .then(data => dispatch(addMoviesSuccess(data.length)));
+        .then(data => dispatch(addMoviesSuccess(data)));
 };
 
 export const FETCH_MOVIES_REQUEST = 'FETCH_ALL_MOVIES_REQUEST';
@@ -67,3 +67,9 @@ export const deleteMovie = movies => dispatch => {
     return api.deleteMovie(movies)
         .then(data => dispatch(deleteMovieSuccess(data.title)));
 };
+
+export const CLOSE_MESSAGE_BOX = 'CLOSE_MESSAGE_BOX';
+
+export const closeMessageBox = () => ({
+    type: CLOSE_MESSAGE_BOX,
+});

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux-immutable';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import {
-    IMPORT_MOVIES_REQUEST,
-    IMPORT_MOVIES_SUCCESS,
+    ADD_MOVIES_REQUEST,
+    ADD_MOVIES_SUCCESS,
     FETCH_MOVIES_REQUEST,
     FETCH_MOVIES_SUCCESS,
-    DELETE_MOVIE_REQUEST,
     DELETE_MOVIE_SUCCESS,
+    CLOSE_MESSAGE_BOX,
 } from '../actions';
 
 const defaultState = fromJS({
@@ -18,7 +18,7 @@ const defaultState = fromJS({
 
 const movies = (state = defaultState, action) => {
     switch (action.type) {
-        case IMPORT_MOVIES_REQUEST:
+        case ADD_MOVIES_REQUEST:
             return state
                 .set('isImporting', true);
 
@@ -26,9 +26,7 @@ const movies = (state = defaultState, action) => {
             return state
                 .set('ifFetching', true);
 
-        case IMPORT_MOVIES_SUCCESS: {
-            console.log(action.moviesCount);
-
+        case ADD_MOVIES_SUCCESS: {
             return state
                 .set('isImporting', false);
         }
@@ -51,6 +49,39 @@ const movies = (state = defaultState, action) => {
     }
 };
 
+const message = (state = Map({ open: false, text: '' }), action) => {
+    switch (action.type) {
+        case ADD_MOVIES_SUCCESS: {
+            let messageText = '';
+
+            if (Array.isArray(action.newMovies)) {
+                messageText = `${action.newMovies.length} movies were added`;
+            } else {
+                messageText = `Movie "${action.newMovies.title}" was added`;
+            }
+
+            return state
+                .set('open', true)
+                .set('text', messageText);
+        }
+
+        case DELETE_MOVIE_SUCCESS:
+            return state
+                .set('open', true)
+                .set('text', `Movie "${action.movieTitle}" was deleted`);
+
+        case CLOSE_MESSAGE_BOX: {
+            return state
+                .set('open', false)
+                .set('text', '');
+        }
+
+        default:
+            return state;
+    }
+};
+
 export default combineReducers({
     movies,
+    message,
 });
