@@ -32,7 +32,6 @@
             "callbacksLast": true,
             "ignoreCase": true
         }],
-        "import/first": 0,
         "import/extensions": 0
     }
 }

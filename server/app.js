@@ -21,6 +21,10 @@ app.get('/movies', (req, res) => {
     db.searchMovies(req.query).then(data => res.send(data));
 });
 
+app.get('/movies/:id', (req, res) => {
+    db.getMovieDetails(req.params.id).then(data => res.send(data));
+});
+
 app.post('/movies', (req, res) => {
     db.createMovies(req.body).then(data => res.send(data));
 });

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
 
 import { addMovies, fetchAllMovies, fetchSearchMovies } from '../actions';
 
-import RaisedButton from 'material-ui/RaisedButton';
-import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
 import SearchBox from '../components/SearchBox.jsx';
 import Import from '../components/Import.jsx';
 

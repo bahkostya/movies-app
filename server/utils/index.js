@@ -19,7 +19,11 @@ function searchMovies(options) {
         query.stars = { $elemMatch: { $regex: options.stars, $options: 'i' } };
     }
 
-    return Movie.find(query).sort({ title: 1 });
+    return Movie.find(query, { title: 1 }).sort({ title: 1 });
+}
+
+function getMovieDetails(id) {
+    return Movie.findById(id);
 }
 
 function createMovies(data) {
@@ -48,4 +52,5 @@ module.exports = {
     deleteMovie,
     createMovies,
     searchMovies,
+    getMovieDetails,
 };

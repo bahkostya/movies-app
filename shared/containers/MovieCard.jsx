@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 
-import { deleteMovie } from '../actions';
+import { deleteMovie, fetchMovieDetails } from '../actions';
 
-import ListItem from '../components/ListItem.jsx';
-
-@connect(null, { deleteMovie })
+@connect(null, { deleteMovie, fetchMovieDetails })
 export default class Header extends Component {
     state = {
         queryValue: '',
+        expanded: false,
     }
 
     handleTouchTap = () => {
@@ -18,17 +20,55 @@ export default class Header extends Component {
         });
     }
 
+    handleExpandChange = expanded => {
+        if (!this.props.movie.get('detailsLoaded')) {
+            this.props.fetchMovieDetails(this.props.movie.get('_id'));
+        }
+
+        this.setState({
+            expanded,
+        });
+    };
+
     render() {
         const { movie } = this.props;
+
         return (
-            <ListItem
-                format={movie.get('format')}
-                id={movie.get('_id')}
-                stars={movie.get('stars')}
-                title={movie.get('title')}
-                year={movie.get('year')}
-                onDelete={id => this.props.deleteMovie(id)}
-            />
+            <Card
+                expanded={this.state.expanded}
+                style={{
+                    marginTop: '16px',
+                    position: 'relative',
+                }}
+                onExpandChange={this.handleExpandChange}
+            >
+                <CardHeader
+                    actAsExpander
+                    showExpandableButton
+                    style={{ marginRight: '36px' }}
+                    title={movie.get('title')}
+                />
+                <IconButton
+                    style={{
+                        position: 'absolute',
+                        right: 0,
+                        top: 0,
+                    }}
+                >
+                    <ActionDelete
+                        onTouchTap={() => this.props.deleteMovie(movie.get('_id'))}
+                    />
+                </IconButton>
+                {
+                    movie.get('detailsLoaded') &&
+                    <CardText expandable>
+                        <div>Year: {movie.get('year')}</div>
+                        <div>Format: {movie.get('format')}</div>
+                        <div>Actors: {movie.get('stars').join(', ')}</div>
+                    </CardText>
+                }
+
+            </Card>
         );
     }
 }

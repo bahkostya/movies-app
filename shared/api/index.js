@@ -10,6 +10,17 @@ function getAllMovies() {
         .then(response => response.json());
 }
 
+
+function getMovieDetails(id) {
+    const fetchOptions = {
+        method: 'GET',
+        mode: 'cors',
+    };
+
+    return fetch(`${API_PREFIX}/movies/${id}`, fetchOptions)
+        .then(response => response.json());
+}
+
 function searchMovies(parameter, query) {
     const fetchOptions = {
         method: 'GET',
@@ -50,4 +61,5 @@ export default {
     searchMovies,
     addMovies,
     deleteMovie,
+    getMovieDetails,
 };

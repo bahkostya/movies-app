@@ -2,39 +2,35 @@ import { combineReducers } from 'redux-immutable';
 import { fromJS, Map } from 'immutable';
 
 import {
-    ADD_MOVIES_REQUEST,
     ADD_MOVIES_SUCCESS,
     FETCH_MOVIES_REQUEST,
     FETCH_MOVIES_SUCCESS,
     DELETE_MOVIE_SUCCESS,
     CLOSE_MESSAGE_BOX,
+    FETCH_MOVIE_DETAILS_SUCCESS,
 } from '../actions';
 
-const defaultState = fromJS({
-    ifFetching: false,
-    isImporting: false,
-    items: [],
-});
-
-const movies = (state = defaultState, action) => {
+const movies = (state = fromJS({ isFetching: false, items: [] }), action) => {
     switch (action.type) {
-        case ADD_MOVIES_REQUEST:
-            return state
-                .set('isImporting', true);
-
         case FETCH_MOVIES_REQUEST:
             return state
-                .set('ifFetching', true);
+                .set('isFetching', true);
 
-        case ADD_MOVIES_SUCCESS: {
+        case FETCH_MOVIES_SUCCESS: {
+            const fetchedMovies = action.movies.map(movie => movie.set('detailsLoaded', false));
+
             return state
-                .set('isImporting', false);
+                .set('isFetching', false)
+                .set('items', fetchedMovies);
         }
 
-        case FETCH_MOVIES_SUCCESS:
-            return state
-                .set('ifFetching', false)
-                .set('items', action.movies);
+        case FETCH_MOVIE_DETAILS_SUCCESS:
+            return state.set('items', state.get('items').map(movie => {
+                return (movie.get('_id') === action.movie.get('_id'))
+                    ? action.movie.set('detailsLoaded', true)
+                    : movie;
+            }));
+
 
         case DELETE_MOVIE_SUCCESS: {
             const filteredMovies = state.get('items').filter(movie => {

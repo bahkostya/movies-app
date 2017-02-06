@@ -18,7 +18,7 @@ export default props => {
             {
                 props.loading
                 ? <CircularProgress
-                    size={60}
+                    size={40}
                     style={styles.spinner}
                     thickness={5}
                 />

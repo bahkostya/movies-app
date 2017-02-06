@@ -21,8 +21,8 @@ export const addMovies = movies => dispatch => {
         .then(data => dispatch(addMoviesSuccess(data)));
 };
 
-export const FETCH_MOVIES_REQUEST = 'FETCH_ALL_MOVIES_REQUEST';
-export const FETCH_MOVIES_SUCCESS = 'FETCH_ALL_MOVIES_SUCCESS';
+export const FETCH_MOVIES_REQUEST = 'FETCH_MOVIES_REQUEST';
+export const FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS';
 
 export const fetchMoviesRequest = () => ({
     type: FETCH_MOVIES_REQUEST,
@@ -48,6 +48,24 @@ export const fetchSearchMovies = ({ queryKey, queryValue }) => dispatch => {
         .then(data => dispatch(fetchMoviesSuccess(fromJS(data))));
 };
 
+export const FETCH_MOVIE_DETAILS_REQUEST = 'FETCH_MOVIE_DETAILS_REQUEST';
+export const FETCH_MOVIE_DETAILS_SUCCESS = 'FETCH_MOVIE_DETAILS_SUCCESS';
+
+export const fetchMovieDetailsRequest = () => ({
+    type: FETCH_MOVIE_DETAILS_REQUEST,
+});
+
+export const fetchMovieDetailsSuccess = movie => ({
+    type: FETCH_MOVIE_DETAILS_SUCCESS,
+    movie,
+});
+
+export const fetchMovieDetails = id => dispatch => {
+    dispatch(fetchMovieDetailsRequest());
+
+    return api.getMovieDetails(id)
+        .then(data => dispatch(fetchMovieDetailsSuccess(fromJS(data))));
+};
 
 export const DELETE_MOVIE_REQUEST = 'DELETE_MOVIE_REQUEST';
 export const DELETE_MOVIE_SUCCESS = 'DELETE_MOVIE_SUCCESS';
