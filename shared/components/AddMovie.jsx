@@ -46,8 +46,8 @@ export default class AddMovie extends Component {
     };
 
     handleActorAdd = () => {
-        this.state.newActor.trim().length &&
-        this.setState({
+        this.state.newActor.trim().length
+        && this.setState({
             actors: [
                 ...this.state.actors,
                 this.state.newActor,
@@ -109,6 +109,7 @@ export default class AddMovie extends Component {
             <div>
                 <FloatingActionButton
                     className={styles.fixedButton}
+                    mini
                     onTouchTap={this.handleOpen}
                 >
                     <ContentAdd />

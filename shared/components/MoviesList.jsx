@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MovieCard from './MovieCard.jsx';
+import MovieCard from '../containers/MovieCard.jsx';
 
 import styles from './MoviesList.scss';
 
@@ -16,12 +16,8 @@ export default props => {
                 ? movies.map(movie => {
                     return (
                         <MovieCard
-                            format={movie.get('format')}
-                            id={movie.get('_id')}
                             key={movie.get('_id')}
-                            stars={movie.get('stars')}
-                            title={movie.get('title')}
-                            year={movie.get('year')}
+                            movie={movie}
                         />
                     );
                 })

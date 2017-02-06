@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { importMovies, fetchAllMovies, fetchSearchMovies } from '../actions';
+import { addMovies, fetchAllMovies, fetchSearchMovies } from '../actions';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
@@ -10,7 +10,7 @@ import Import from '../components/Import.jsx';
 
 import parseFile from '../utils/UploadFile';
 
-@connect(null, { importMovies, fetchAllMovies, fetchSearchMovies })
+@connect(null, { addMovies, fetchAllMovies, fetchSearchMovies })
 export default class Header extends Component {
     state = {
         queryValue: '',
@@ -51,7 +51,7 @@ export default class Header extends Component {
                         />
                         <Import
                             onImport={file => {
-                                parseFile(file).then(movies => this.props.importMovies(movies));
+                                parseFile(file).then(movies => this.props.addMovies(movies));
                             }}
                         />
                     </ToolbarGroup>

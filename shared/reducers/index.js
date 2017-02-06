@@ -6,6 +6,8 @@ import {
     IMPORT_MOVIES_SUCCESS,
     FETCH_MOVIES_REQUEST,
     FETCH_MOVIES_SUCCESS,
+    DELETE_MOVIE_REQUEST,
+    DELETE_MOVIE_SUCCESS,
 } from '../actions';
 
 const defaultState = fromJS({
@@ -30,11 +32,19 @@ const movies = (state = defaultState, action) => {
             return state
                 .set('isImporting', false);
         }
-// .update('items', items => items.concat(action.movies));
+
         case FETCH_MOVIES_SUCCESS:
             return state
                 .set('ifFetching', false)
                 .set('items', action.movies);
+
+        case DELETE_MOVIE_SUCCESS: {
+            const filteredMovies = state.get('items').filter(movie => {
+                return movie.get('title') !== action.movieTitle;
+            });
+
+            return state.set('items', filteredMovies);
+        }
 
         default:
             return state;

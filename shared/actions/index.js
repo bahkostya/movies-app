@@ -2,27 +2,27 @@ import { fromJS } from 'immutable';
 
 import api from '../api';
 
-export const IMPORT_MOVIES_REQUEST = 'IMPORT_MOVIES_REQUEST';
-export const IMPORT_MOVIES_SUCCESS = 'IMPORT_MOVIES_SUCCESS';
+export const ADD_MOVIES_REQUEST = 'ADD_MOVIES_REQUEST';
+export const ADD_MOVIES_SUCCESS = 'ADD_MOVIES_SUCCESS';
 
-export const FETCH_MOVIES_REQUEST = 'FETCH_ALL_MOVIES_REQUEST';
-export const FETCH_MOVIES_SUCCESS = 'FETCH_ALL_MOVIES_SUCCESS';
-
-export const importMoviesRequest = () => ({
-    type: IMPORT_MOVIES_REQUEST,
+export const addMoviesRequest = () => ({
+    type: ADD_MOVIES_REQUEST,
 });
 
-export const importMoviesSuccess = moviesCount => ({
-    type: IMPORT_MOVIES_SUCCESS,
+export const addMoviesSuccess = moviesCount => ({
+    type: ADD_MOVIES_SUCCESS,
     moviesCount,
 });
 
-export const importMovies = movies => dispatch => {
-    dispatch(importMoviesRequest());
+export const addMovies = movies => dispatch => {
+    dispatch(addMoviesRequest());
 
     return api.addMovies(movies)
-        .then(data => dispatch(importMoviesSuccess(data.length)));
+        .then(data => dispatch(addMoviesSuccess(data.length)));
 };
+
+export const FETCH_MOVIES_REQUEST = 'FETCH_ALL_MOVIES_REQUEST';
+export const FETCH_MOVIES_SUCCESS = 'FETCH_ALL_MOVIES_SUCCESS';
 
 export const fetchMoviesRequest = () => ({
     type: FETCH_MOVIES_REQUEST,
@@ -46,4 +46,24 @@ export const fetchSearchMovies = ({ queryKey, queryValue }) => dispatch => {
 
     return api.searchMovies(queryKey, queryValue)
         .then(data => dispatch(fetchMoviesSuccess(fromJS(data))));
+};
+
+
+export const DELETE_MOVIE_REQUEST = 'DELETE_MOVIE_REQUEST';
+export const DELETE_MOVIE_SUCCESS = 'DELETE_MOVIE_SUCCESS';
+
+export const deleteMovieRequest = () => ({
+    type: DELETE_MOVIE_REQUEST,
+});
+
+export const deleteMovieSuccess = movieTitle => ({
+    type: DELETE_MOVIE_SUCCESS,
+    movieTitle,
+});
+
+export const deleteMovie = movies => dispatch => {
+    dispatch(deleteMovieRequest());
+
+    return api.deleteMovie(movies)
+        .then(data => dispatch(deleteMovieSuccess(data.title)));
 };

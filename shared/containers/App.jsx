@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { addMovies } from '../actions';
+
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header.jsx';
@@ -13,7 +15,7 @@ import '../assets/main.css';
 
 injectTapEventPlugin();
 
-@connect(mapStateToProps)
+@connect(mapStateToProps, { addMovies })
 export default class App extends Component {
     render() {
         return (
@@ -23,14 +25,16 @@ export default class App extends Component {
                     <Loader loading={this.props.loading}>
                         <MoviesList movies={this.props.movies} />
                     </Loader>
-                    <AddMovie />
+                    <AddMovie
+                        onMovieAdd={movie => this.props.addMovies(movie)}
+                    />
                 </div>
             </MuiThemeProvider>
         );
     }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
         movies: state.getIn(['movies', 'items']),
         loading: state.getIn(['movies', 'isFetching']),
