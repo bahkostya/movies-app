@@ -1,7 +1,7 @@
 # movies-app
 Test task for WebbyLab
 
-### Technologies used:
+## Technologies used:
 
 * [React.js](http://facebook.github.io/react/)
 * [Redux](http://redux.js.org/)
@@ -12,7 +12,7 @@ Test task for WebbyLab
 
 The project was built with [Webpack](http://webpack.github.io) using ES6.
 
-### Installation (development)
+## Installation (development)
 
 1. Clone the repository:
     ```sh
