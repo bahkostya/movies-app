@@ -27,23 +27,23 @@ export default class Header extends Component {
         return (
             <div
                 style={{
-                    backgroundColor: '#81D4FA',
+                    backgroundColor: '#00bcd4',
                 }}
             >
                 <Toolbar
                     style={{
-                        backgroundColor: '#81D4FA',
+                        backgroundColor: '#00bcd4',
                         maxWidth: '800px',
+                        height: '64px',
                         width: '100%',
                         margin: '0 auto',
-                        color: '#ffffff',
                     }}
                 >
                     <SearchBox
                         queryValue={this.state.queryValue}
                         onSearch={this.handleSearch}
                     />
-                    <ToolbarGroup>
+                    <ToolbarGroup lastChild>
                         <Import
                             onImport={file => {
                                 parseFile(file).then(movies => this.props.addMovies(movies));

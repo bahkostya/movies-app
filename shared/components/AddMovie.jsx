@@ -155,7 +155,11 @@ export default class AddMovie extends Component {
                     actions={actions}
                     actionsContainerClassName={styles.actionButtons}
                     autoScrollBodyContent
-                    contentStyle={{ maxWidth: '400px' }}
+                    contentStyle={{
+                        maxWidth: '400px',
+                        width: '100%',
+                        padding: '0 10px',
+                    }}
                     modal={false}
                     open={open}
                     title="Add new movie"

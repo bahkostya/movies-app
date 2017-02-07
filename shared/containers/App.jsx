@@ -50,6 +50,7 @@ export default class App extends Component {
             messageText,
             currentPage,
             pagesTotal,
+            currentQueryValue,
         } = this.props;
 
         return (
@@ -57,7 +58,10 @@ export default class App extends Component {
                 <div>
                     <Header />
                     <Loader loading={loading}>
-                        <MoviesList movies={movies} />
+                        <MoviesList
+                            currentQuery={currentQueryValue}
+                            movies={movies}
+                        />
                     </Loader>
                     <Pagination
                         currentPage={currentPage}

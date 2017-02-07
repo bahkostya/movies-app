@@ -4,6 +4,8 @@ import { Card, CardHeader, CardText } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 
+import MovieDetails from '../components/MovieDetails.jsx';
+
 import { deleteMovie, fetchMovieDetails } from '../actions';
 
 @connect(null, { deleteMovie, fetchMovieDetails })
@@ -62,9 +64,11 @@ export default class Header extends Component {
                 {
                     movie.get('detailsLoaded') &&
                     <CardText expandable>
-                        <div>Year: {movie.get('year')}</div>
-                        <div>Format: {movie.get('format')}</div>
-                        <div>Actors: {movie.get('stars').join(', ')}</div>
+                        <MovieDetails
+                            format={movie.get('format')}
+                            stars={movie.get('stars')}
+                            year={movie.get('year')}
+                        />
                     </CardText>
                 }
 

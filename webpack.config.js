@@ -56,10 +56,10 @@ module.exports = {
                     },
                 ],
             },
-            // {
-            //     test: /\.(jpe?g|png|gif|svg)$/i,
-            //     use: ["file-loader?name=public/img/[name].[ext]"]
-            // },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                use: ['file-loader?name=public/img/[name].[ext]'],
+            },
         ],
     },
     plugins: [

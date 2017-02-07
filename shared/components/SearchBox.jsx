@@ -16,14 +16,14 @@ const DropDownMenuStyles = {
         borderTop: 'none',
     },
     iconStyle: {
-        fill: '#000000',
         top: 0,
-        right: '8px',
+        right: '0',
+        fill: '#000000',
     },
     labelStyle: {
         lineHeight: '48px',
-        paddingRight: '48px',
-        paddingLeft: '16px',
+        paddingRight: '40px',
+        paddingLeft: '8px',
     },
     style: {
         marginRight: 0,
@@ -72,20 +72,20 @@ export default class SearchBox extends Component {
                 className={styles.root}
                 firstChild
             >
-                <TextField
-                    className={styles.textField}
-                    fullWidth
-                    hintText="Search movie"
-                    underlineShow
-                    value={queryValue}
-                    onChange={this.handleTextChange}
-                    onKeyDown={this.handleKeyDown}
-                />
-                <IconButton>
-                    <ActionSearch
-                        onTouchTap={this.handleTouchTap}
+                <div className={styles.searchBlock}>
+                    <TextField
+                        fullWidth
+                        hintText="Search..."
+                        underlineShow
+                        underlineStyle={{ borderBottomColor: '#2c97a9' }}
+                        value={queryValue}
+                        onChange={this.handleTextChange}
+                        onKeyDown={this.handleKeyDown}
                     />
-                </IconButton>
+                    <IconButton style={{ padding: '8px' }} >
+                        <ActionSearch onTouchTap={this.handleTouchTap} />
+                    </IconButton>
+                </div>
                 <DropDownMenu
                     className={styles.dropDown}
                     iconStyle={DropDownMenuStyles.iconStyle}
