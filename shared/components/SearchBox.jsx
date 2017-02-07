@@ -50,7 +50,7 @@ export default class SearchBox extends Component {
 
     handleKeyDown = e => {
         if (e.keyCode === ENTER_KEY) {
-            this.props.onSearch(this.state);
+            this.props.onSearch(this.state.queryKey, this.state.queryValue);
         }
     }
 

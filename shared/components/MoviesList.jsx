@@ -6,13 +6,12 @@ import styles from './MoviesList.scss';
 
 export default props => {
     const { movies } = props;
-
     return (
         <div
             className={styles.root}
         >
             {
-                movies.length !== 0
+                movies.size
                 ? movies.map(movie => {
                     return (
                         <MovieCard

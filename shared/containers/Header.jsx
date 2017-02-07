@@ -16,6 +16,14 @@ export default class Header extends Component {
         queryValue: '',
     }
 
+    componentDidMount() {
+        this.props.fetchAllMovies();
+    }
+
+    handleSearch = (queryKey, queryValue) => {
+        this.props.fetchSearchMovies(queryKey, queryValue);
+    }
+
     handleTouchTap = () => {
         this.props.fetchAllMovies();
         this.setState({
@@ -41,7 +49,7 @@ export default class Header extends Component {
                 >
                     <SearchBox
                         queryValue={this.state.queryValue}
-                        onSearch={query => this.props.fetchSearchMovies(query)}
+                        onSearch={this.handleSearch}
                     />
                     <ToolbarGroup>
                         <ToolbarSeparator />

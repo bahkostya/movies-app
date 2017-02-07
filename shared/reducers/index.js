@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux-immutable';
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
     ADD_MOVIES_SUCCESS,
@@ -10,14 +10,23 @@ import {
     FETCH_MOVIE_DETAILS_SUCCESS,
 } from '../actions';
 
-const movies = (state = fromJS({ isFetching: false, items: [] }), action) => {
+const movies = (state = fromJS({
+    isFetching: true,
+    currentQueryKey: '',
+    currentQueryValue: '',
+    items: [],
+}), action) => {
     switch (action.type) {
         case FETCH_MOVIES_REQUEST:
             return state
-                .set('isFetching', true);
+                .set('isFetching', true)
+                .set('currentQueryKey', action.queryKey)
+                .set('currentQueryValue', action.queryValue);
 
         case FETCH_MOVIES_SUCCESS: {
-            const fetchedMovies = action.movies.map(movie => movie.set('detailsLoaded', false));
+            const fetchedMovies = action.movies.get('data').map(movie => (
+                movie.set('detailsLoaded', false)
+            ));
 
             return state
                 .set('isFetching', false)
@@ -45,7 +54,7 @@ const movies = (state = fromJS({ isFetching: false, items: [] }), action) => {
     }
 };
 
-const message = (state = Map({ open: false, text: '' }), action) => {
+const message = (state = fromJS({ open: false, text: '' }), action) => {
     switch (action.type) {
         case ADD_MOVIES_SUCCESS: {
             let messageText = '';
@@ -77,7 +86,21 @@ const message = (state = Map({ open: false, text: '' }), action) => {
     }
 };
 
+const pagination = (state = fromJS({ currentPage: 1, pagesTotal: 1 }), action) => {
+    switch (action.type) {
+        case FETCH_MOVIES_SUCCESS: {
+            return state
+                .set('currentPage', action.movies.get('currentPage'))
+                .set('pagesTotal', action.movies.get('pagesTotal'));
+        }
+
+        default:
+            return state;
+    }
+};
+
 export default combineReducers({
     movies,
     message,
+    pagination,
 });

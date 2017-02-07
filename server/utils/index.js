@@ -19,7 +19,17 @@ function searchMovies(options) {
         query.stars = { $elemMatch: { $regex: options.stars, $options: 'i' } };
     }
 
-    return Movie.find(query, { title: 1 }).sort({ title: 1 });
+    const limit = 10;
+    const skip = (options.page - 1) * limit;
+
+    return Promise.all([
+        Movie.find(query, { title: 1 }).sort({ title: 1 }).skip(skip).limit(limit),
+        Movie.find(query).count(),
+    ]).then(result => ({
+        data: result[0],
+        currentPage: +options.page,
+        pagesTotal: Math.ceil(result[1] / 10),
+    }));
 }
 
 function getMovieDetails(id) {

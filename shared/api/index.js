@@ -1,12 +1,12 @@
 const API_PREFIX = 'http://localhost:3000';
 
-function getAllMovies() {
+function getAllMovies(page = 1) {
     const fetchOptions = {
         method: 'GET',
         mode: 'cors',
     };
 
-    return fetch(`${API_PREFIX}/movies`, fetchOptions)
+    return fetch(`${API_PREFIX}/movies?page=${page}`, fetchOptions)
         .then(response => response.json());
 }
 
@@ -21,13 +21,13 @@ function getMovieDetails(id) {
         .then(response => response.json());
 }
 
-function searchMovies(parameter, query) {
+function searchMovies(queryKey, queryValue, page) {
     const fetchOptions = {
         method: 'GET',
         mode: 'cors',
     };
 
-    return fetch(`${API_PREFIX}/movies?${parameter}=${query}`, fetchOptions)
+    return fetch(`${API_PREFIX}/movies?page=${page}&${queryKey}=${queryValue}`, fetchOptions)
         .then(response => response.json());
 }
 

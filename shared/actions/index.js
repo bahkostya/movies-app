@@ -24,8 +24,10 @@ export const addMovies = movies => dispatch => {
 export const FETCH_MOVIES_REQUEST = 'FETCH_MOVIES_REQUEST';
 export const FETCH_MOVIES_SUCCESS = 'FETCH_MOVIES_SUCCESS';
 
-export const fetchMoviesRequest = () => ({
+export const fetchMoviesRequest = (queryKey, queryValue) => ({
     type: FETCH_MOVIES_REQUEST,
+    queryKey,
+    queryValue,
 });
 
 export const fetchMoviesSuccess = movies => ({
@@ -34,17 +36,15 @@ export const fetchMoviesSuccess = movies => ({
 });
 
 export const fetchAllMovies = () => dispatch => {
-    dispatch(fetchMoviesRequest());
-
     return api.getAllMovies()
         .then(data => dispatch(fetchMoviesSuccess(fromJS(data))));
 };
 
 
-export const fetchSearchMovies = ({ queryKey, queryValue }) => dispatch => {
-    dispatch(fetchMoviesRequest());
+export const fetchSearchMovies = (queryKey, queryValue, page = 1) => dispatch => {
+    dispatch(fetchMoviesRequest(queryKey, queryValue));
 
-    return api.searchMovies(queryKey, queryValue)
+    return api.searchMovies(queryKey, queryValue, page)
         .then(data => dispatch(fetchMoviesSuccess(fromJS(data))));
 };
 
