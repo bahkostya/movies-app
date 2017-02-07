@@ -12,14 +12,12 @@ export default props => {
         >
             {
                 movies.size
-                ? movies.map(movie => {
-                    return (
-                        <MovieCard
-                            key={movie.get('_id')}
-                            movie={movie}
-                        />
-                    );
-                })
+                ? movies.map(movie => (
+                    <MovieCard
+                        key={movie.get('_id')}
+                        movie={movie}
+                    />
+                ))
                 : <p>No movies to display</p>
             }
         </div>

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+
+import AddActors from './AddActors.jsx';
 
 import styles from './AddMovie.scss';
 
@@ -19,6 +20,11 @@ export default class AddMovie extends Component {
         format: 'VHS',
         newActor: '',
         actors: [],
+        errorText: {
+            title: '',
+            year: '',
+            actors: '',
+        },
     };
 
     clearState = () => {
@@ -28,6 +34,11 @@ export default class AddMovie extends Component {
             format: 'VHS',
             newActor: '',
             actors: [],
+            errorText: {
+                title: '',
+                year: '',
+                actors: '',
+            },
         });
     }
 
@@ -45,33 +56,61 @@ export default class AddMovie extends Component {
         this.clearState();
     };
 
-    handleActorAdd = () => {
-        this.state.newActor.trim().length
-        && this.setState({
+    handleActorAdd = newActor => {
+        this.setState({
             actors: [
                 ...this.state.actors,
-                this.state.newActor,
+                newActor,
             ],
-            newActor: '',
+            errorText: {
+                title: this.state.errorText.title,
+                year: this.state.errorText.year,
+                actors: '',
+            },
         });
     }
 
     handleSelect = (event, index, value) => this.setState({ format: value });
 
-    handleTitleChange = event => this.setState({ title: event.target.value });
+    handleTitleChange = event => {
+        this.setState({
+            title: event.target.value,
+            errorText: {
+                title: '',
+                year: this.state.errorText.year,
+                actors: this.state.errorText.actors,
+            },
+        });
+    }
 
-    handleYearChange = event => this.setState({ year: event.target.value });
-
-    handleNewActorChange = event => {
-        this.setState({ newActor: event.target.value });
+    handleYearChange = event => {
+        this.setState({
+            year: event.target.value,
+            errorText: {
+                title: this.state.errorText.title,
+                year: '',
+                actors: this.state.errorText.actors,
+            },
+        });
     }
 
     handleSubmit = () => {
+        if (!this.state.title || !this.state.year || !this.state.actors.length) {
+            this.setState({
+                errorText: {
+                    title: !this.state.title && 'Please enter title',
+                    year: !this.state.year && 'Please enter release year',
+                    actors: !this.state.actors.length && 'Please enter at least 1 actor',
+                },
+            });
+            return;
+        }
+
         const movieData = {
             title: this.state.title,
             year: +this.state.year,
             format: this.state.format,
-            actors: this.state.actors,
+            stars: this.state.actors,
         };
 
         this.props.onMovieAdd(movieData);
@@ -102,7 +141,7 @@ export default class AddMovie extends Component {
             format,
             open,
             actors,
-            newActor,
+            errorText,
         } = this.state;
 
         return (
@@ -127,6 +166,7 @@ export default class AddMovie extends Component {
                     <form>
                         <TextField
                             className={styles.textField}
+                            errorText={errorText.title}
                             fullWidth
                             hintText="Enter title"
                             value={title}
@@ -134,6 +174,7 @@ export default class AddMovie extends Component {
                         />
                         <TextField
                             className={styles.textField}
+                            errorText={errorText.year}
                             fullWidth
                             hintText="Enter year"
                             value={year}
@@ -150,44 +191,11 @@ export default class AddMovie extends Component {
                             <MenuItem primaryText="DVD" value={'DVD'} />
                             <MenuItem primaryText="Blu-Ray" value={'Blu-Ray'} />
                         </SelectField>
-                        <div
-                            className={styles.actorsBlock}
-                        >
-                            <div
-                                className={styles.label}
-                            >
-                                Actors:
-                            </div>
-                            <ul>
-                                {
-                                    actors.map(actor => {
-                                        return (
-                                            <li
-                                                key={actor}
-                                            >
-                                                {actor}
-                                            </li>
-                                        );
-                                    })
-                                }
-                            </ul>
-                            <TextField
-                                className={styles.textField}
-                                fullWidth
-                                hintText="Enter actor name"
-                                value={newActor}
-                                onChange={this.handleNewActorChange}
-                            />
-                            <FlatButton
-                                label="Add actor"
-                                primary
-                                style={{
-                                    margin: '0 auto',
-                                    display: 'block',
-                                }}
-                                onTouchTap={this.handleActorAdd}
-                            />
-                        </div>
+                        <AddActors
+                            actors={actors}
+                            errorText={this.state.errorText.actors}
+                            onActorAdd={newActor => this.handleActorAdd(newActor)}
+                        />
                     </form>
                 </Dialog>
             </div>

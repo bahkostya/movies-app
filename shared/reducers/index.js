@@ -34,17 +34,16 @@ const movies = (state = fromJS({
         }
 
         case FETCH_MOVIE_DETAILS_SUCCESS:
-            return state.set('items', state.get('items').map(movie => {
-                return (movie.get('_id') === action.movie.get('_id'))
+            return state.set('items', state.get('items').map(movie => (
+                (movie.get('_id') === action.movie.get('_id'))
                     ? action.movie.set('detailsLoaded', true)
-                    : movie;
-            }));
+                    : movie
+            )));
 
 
         case DELETE_MOVIE_SUCCESS: {
-            const filteredMovies = state.get('items').filter(movie => {
-                return movie.get('title') !== action.movieTitle;
-            });
+            const filteredMovies = state.get('items')
+                .filter(movie => movie.get('title') !== action.movieTitle);
 
             return state.set('items', filteredMovies);
         }

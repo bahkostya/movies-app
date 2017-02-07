@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
+import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
 import { addMovies, fetchAllMovies, fetchSearchMovies } from '../actions';
 
@@ -22,13 +21,6 @@ export default class Header extends Component {
 
     handleSearch = (queryKey, queryValue) => {
         this.props.fetchSearchMovies(queryKey, queryValue);
-    }
-
-    handleTouchTap = () => {
-        this.props.fetchAllMovies();
-        this.setState({
-            queryValue: '',
-        });
     }
 
     render() {
@@ -52,11 +44,6 @@ export default class Header extends Component {
                         onSearch={this.handleSearch}
                     />
                     <ToolbarGroup>
-                        <ToolbarSeparator />
-                        <RaisedButton
-                            label="Show all"
-                            onTouchTap={this.handleTouchTap}
-                        />
                         <Import
                             onImport={file => {
                                 parseFile(file).then(movies => this.props.addMovies(movies));

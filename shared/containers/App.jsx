@@ -46,9 +46,7 @@ export default class App extends Component {
         const {
             loading,
             movies,
-            addMovies,
             isMessageBoxOpen,
-            closeMessageBox,
             messageText,
             currentPage,
             pagesTotal,
@@ -67,12 +65,12 @@ export default class App extends Component {
                         onPageChange={page => this.handlePageChange(page)}
                     />
                     <AddMovie
-                        onMovieAdd={movie => addMovies(movie)}
+                        onMovieAdd={movie => this.props.addMovies(movie)}
                     />
                     <MessageBox
                         messageText={messageText}
                         open={isMessageBoxOpen}
-                        onClose={() => closeMessageBox()}
+                        onClose={() => this.props.closeMessageBox()}
                     />
                 </div>
             </MuiThemeProvider>

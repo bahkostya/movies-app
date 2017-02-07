@@ -12,18 +12,16 @@ const styles = {
     },
 };
 
-export default props => {
-    return (
-        <div style={styles.container}>
-            {
-                props.loading
-                ? <CircularProgress
-                    size={40}
-                    style={styles.spinner}
-                    thickness={5}
-                />
-                : props.children
-            }
-        </div>
-    );
-};
+export default props => (
+    <div style={styles.container}>
+        {
+            props.loading
+            ? <CircularProgress
+                size={40}
+                style={styles.spinner}
+                thickness={5}
+            />
+            : props.children
+        }
+    </div>
+);
