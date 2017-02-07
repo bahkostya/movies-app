@@ -18,7 +18,6 @@ export default class AddMovie extends Component {
         title: '',
         year: '',
         format: 'VHS',
-        newActor: '',
         actors: [],
         errorText: {
             title: '',
@@ -32,7 +31,6 @@ export default class AddMovie extends Component {
             title: '',
             year: '',
             format: 'VHS',
-            newActor: '',
             actors: [],
             errorText: {
                 title: '',
